@@ -6,7 +6,7 @@
 
 #include "bits/stdc++.h"
 #define sd(n) scanf("%d", &(n))
-#define rep(i, x, n) for (int i = x, _n = (n); i < _n; ++i)
+#define rep(i, x, n) for (size_t i = x, _n = (n); i < _n; ++i)
 #define SZ(c) (int)(c).size()
 #define lcm(a,b) (a*(b/__gcd(a,b)))
 #define VI vector<int>
