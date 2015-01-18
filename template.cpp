@@ -10,7 +10,7 @@
 #define SZ(c) (int)(c).size()
 #define lcm(a,b) (a*(b/__gcd(a,b)))
 #define VI vector<int>
-#define all(c) ((c).begin(), (c).end())
+#define all(c) (c).begin(), (c).end()
 #define pb push_back
 #define pii pair<int, int>
 #define pip pair<int, pii>
