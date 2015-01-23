@@ -30,7 +30,7 @@ VI inverseArray(lli n, lli m)	//computes MMI of n numbers from 1 to n (mod m) in
 {
 	VI modInverse(n+1, 0);
 	modInverse[1] = 1;
-	for(int i = 2; i <= 2; i++)
+	for(int i = 2; i <= n; i++)
 	{
 		modInverse[i] = (-(m/i) * modInverse[m % i])%m + m;
 	}
