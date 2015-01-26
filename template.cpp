@@ -6,13 +6,14 @@
 
 #include "bits/stdc++.h"
 #define sd(n) scanf("%d", &(n))
-#define rep(i, x, n) for (size_t i = x, _n = (n); i < _n; ++i)
+#define rep(i, x, n) for (int i = x, _n = (n); i < _n; ++i)
 #define repV(i, v) for (i = v.begin(); i != v.end(); i++)
 #define SZ(c) (int)(c).size()
 #define lcm(a,b) (a*(b/__gcd(a,b)))
 #define VI vector<int>
 #define all(c) (c).begin(), (c).end()
 #define pb push_back
+#define mii map<int, int>
 #define pii pair<int, int>
 #define pip pair<int, pii>
 #define F first
