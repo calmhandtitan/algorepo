@@ -2,6 +2,7 @@
 //Algo: Sieve of Eratosthenes using bitmasks
 #include <bits/stdc++.h>
 #define i64 unsigned long long
+using namespace std;
 #define MAX 100000000
 #define LMT 10000
 
