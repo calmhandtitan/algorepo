@@ -1,9 +1,4 @@
-/*
-	My C++ template
-	Chandan Mittal
-	handle: calmhandtitan
-*/
-
+//The closer you think you're, the less you will actually see.
 #include "bits/stdc++.h"
 #define sd(n) scanf("%d", &(n))
 #define rep(i, x, n) for (int i = x, _n = (n); i < _n; ++i)
