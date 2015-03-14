@@ -1,3 +1,4 @@
+//THEM THAT STICK TO IT OUT, ARE THEM THAT WIN
 //The closer you think you're, the less you will actually see.
 #include "bits/stdc++.h"
 #define sd(n) scanf("%d", &(n))
