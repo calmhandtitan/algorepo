@@ -32,6 +32,7 @@ int main()
 	{
 		scanf("%d",&a[i]);
 		update(i, a[i]);
+		update(i+1, -a[i]);
 	}
 
 	printf("Enter update query range[x..y]>>");
