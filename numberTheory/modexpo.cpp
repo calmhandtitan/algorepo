@@ -1,5 +1,6 @@
 /*
 	Modular Exponention
+	https://en.wikipedia.org/wiki/Modular_exponentiation
 */
 
 #include "bits/stdc++.h"
@@ -38,6 +39,6 @@ lli modexpo(lli a, lli b)
 
 int main()
 {	
-	cout << modexpo(2, 16) << endl;
+	cout << modexpo(2, 16) << endl;	//this prints (2^16) % MOD where MOD is 1e9+7
 	return 0;
 }
