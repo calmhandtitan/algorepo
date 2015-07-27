@@ -1,77 +1,63 @@
-#include<bits/stdc++.h>
+//amazing takes time, legendary requires patience
+#include "bits/stdc++.h"
+#define sd(n) scanf("%d", &(n))
+#define rep(i, x, n) for (int i = x, _n = (n); i < _n; ++i)
+#define repV(i, v) for (i = v.begin(); i != v.end(); i++)
+#define SZ(c) (int)(c).size()
+#define lcm(a,b) (a*(b/__gcd(a,b)))
+#define VI vector<int>
+#define all(c) (c).begin(), (c).end()
+#define pb push_back
+#define mii map<int, int>
+#define pii pair<int, int>
+#define pip pair<int, pii>
+#define F first
+#define S second
+#define mp make_pair
+#define lli long long int
+#define CLR(p) memset(p, 0, sizeof(p))
+#define SET(p) memset(p, -1, sizeof(p))
+#define INF 0x3f3f3f3f
+#define pi 3.14159265358979
 using namespace std;
 
-class LongSequence
-{
-		int *lis, *lds, *bts;
-	public:
-		LongSequence()
-		{
-			lis = lds = bts = NULL;
-		}
-		int LIS(int *a, int n)
-		{
-			lis = (int*)malloc(sizeof(int)*n);
-			fill(lis, lis+n, 1);
+const int MOD = 1e9+7;
+const int MAX = 1010;
 
-			for(int i = 0; i < n; i++)
-				for(int j = 0; j < i; j++)
-					if(a[i] > a[j] && lis[i] < lis[j] + 1)
-						lis[i] = lis[j]+1;
-
-			return *(max_element(lis, lis+n));
-		}		
-
-		int LDS(int *a, int n)
-		{
-			lds = (int*)malloc(n*sizeof(int));
-			fill(lds, lds+n, 1);
-
-			for(int i = 0; i < n; i++)
-				for(int j = 0; j < i; j++)
-					if(a[i] < a[j] && lds[i] < lds[j]+1)
-						lds[i] = lds[j] + 1;
-
-			return *(max_element(lds, lds+n));
-		}
-		int LBTS(int *a, int n)	
-		{
-			/*
-				returns the length of longest bitonic sequence, which is
-				first increasing and then decreasing
-			*/
-			if(lis == NULL)			
-				int _lis = LIS(a, n);
-			if(lds == NULL)
-				int _lds = LDS(a, n);
-
-			bts = (int*)malloc(sizeof(int)*n);
-
-			for(int i = 0; i < n; i++)
-			{
-				bts[i] = lis[i] + lds[i] - 1;
-			}
-			return *(max_element(bts, bts+n));
-		}
-
-};
-
-
-
-
+int a[MAX], dp1[MAX], dp2[MAX];
+//dp1[i]  is the longest increasing subsequence till index i
+//dp2[i]  is the longest decreasing subsequence till index i
+int n;
 
 int main()
 {
-	int a[] = {2, 4, 1, 7, 0, 9, 5};
-	int n = sizeof(a)/sizeof(int);
-
-	LongSequence LS;
-	int lis = LS.LIS(a, n);
-	cout << "LIS is " << lis << endl;
-	int lds = LS.LDS(a, n);
-	cout << "LDS is " << lds << endl;
-	int bts = LS.LBTS(a, n);
-	cout << "Longest Bitonic Sequence is " << bts << endl;
-
-	return 0;
-}
+	ios_base::sync_with_stdio(0);
+	int t;
+	sd(t);
+	while(t--)
+	{
+		sd(n);
+		rep(i, 1, n+1)
+			sd(a[i]);
+			
+		rep(i, 1, n+1)
+			dp1[i] = dp2[i] = 1;
+			
+		rep(i, 1, n+1)
+			rep(j, i+1, n+1)
+				if(a[j] > a[i])	//note it is strictly increasing 
+					dp1[j] = max(dp1[j], dp1[i]+1);
+					
+					
+		for(int i = n; i >= 1; --i)		//notice both the loops are iterated backwards
+			for(int j = i-1; j >= 1; --j)	
+				if(a[j] > a[i])	//condition remains the same, note it is strictly decreasing 
+					dp2[j] = max(dp2[j], dp2[i]+1);			
+					
+		int ans = 1;
+		rep(i, 1, n+1)
+			ans = max(ans, dp1[i] + dp2[i] - 1);	//find longest bitonic sequence
+		cout << ans << endl;
+	}
+    return 0;
+}    
