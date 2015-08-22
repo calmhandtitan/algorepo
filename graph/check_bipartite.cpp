@@ -1,53 +1,57 @@
-#include<bits/stdc++.h>
+//SPOJ BUGLIGE solution
+//check if given graph is bipartite or not
+#include "stdio.h"
+#include "queue"
+#include "algorithm"
+#include "string.h"
+#define all(c) (c).begin(),(c).end()
+#define pb push_back
+#define VI vector<int>
 using namespace std;
-#define MAX 100001
-#define VI vector< int >
 
-int n, e;
-vector< VI > graph;
-int color[MAX];
-int sets[MAX];
-bool visited[MAX];
+vector<VI> graph;
+VI colorArr;
 
-void color_graph(int src)
+int inline inp()
 {
-//	for(int i = 0; i < n; i++)
-//		color[i] = sets[i] = -1;
-	memset(color, -1, sizeof(color));
-	memset(sets, -1, sizeof(sets));
-	cout << sets[3] << " " << color[6] << endl;
-	color[src] = sets[src] = 1;
+    int n=0;
+    char c=getchar_unlocked();
+    while(c < '0' || c >'9') {c=getchar_unlocked();}
+    while(c>='0' && c<='9')
+    {
+        n=(n<<3)+(n<<1)+c-'0';
+        c=getchar_unlocked();
+    }
+    return n;
+}
 
-	visited[src] = true;
-	queue< int > Q;
+bool check_bipartite(int src,int n)
+{
+//	printf("here\n");
+	queue<int> Q;
 	Q.push(src);
+	
+	
+//	int colorArr[n];
+	//value -1 of colorArr is used to indicate that no color is assigned yet
+//	memset(colorArr, -1, sizeof(colorArr));
+	colorArr[src] = 1;	//assign first color to source
 
 	while(!Q.empty())
 	{
-		int v = Q.front();
+		int i = Q.front(); //dequeue a vertex from queue
 		Q.pop();
 
-		for(VI::iterator it = graph[v].begin(); it != graph[v].end(); it++)
+		for (VI::iterator it = graph[i].begin(); it != graph[i].end(); ++it)
 		{
-			color[*it] = color[v]^1;	//just color alternate nodes with same color
-
-			if(!visited[*it])
+			if(colorArr[*it] == -1)
 			{
+				colorArr[*it] = 1 - colorArr[i];
 				Q.push(*it);
-				sets[*it] = sets[v]^1;	//put alternate nodes in same set
-				visited[*it] = true;
 			}
+			else if(colorArr[*it] == colorArr[i])
+				return false;
 		}
-	}
-}
-
-bool check_bipartite()
-{
-	VI V1, V2;
-	for(int i = 0; i < n; i++)
-	{	
-		if(color[i] != sets[i])
-			return false;
 	}
 	return true;
 }
@@ -55,20 +59,44 @@ bool check_bipartite()
 
 int main()
 {
-	int x, y;
-	scanf("%d %d",&n, &e);
-	graph = vector< VI > (n);
-	for(int i = 0; i < e; i++)
+	int n,m,p,q,t,iter=0;
+	t = inp();
+	while(t--)
 	{
-		scanf("%d %d",&x, &y);
-		x--, y--;
-		graph[x].push_back(y);
-	}
-	color_graph(0);
-	if(check_bipartite())
-		printf("graph is bipartite\n");
-	else
-		printf("graph is NOT bipartite\n");
+		n = inp();
+		m = inp();
 
+		graph = vector<VI> (n);
+		colorArr = VI (n,-1);
+		for (int i = 0; i < m; ++i)
+		{
+			p = inp();
+			q = inp();
+			p--;q--;
+			graph[p].pb(q);
+			graph[q].pb(p);
+		}
+		printf("Scenario #%d:\n",++iter);
+		int j;
+		for (j = 0; j < n; ++j)
+		{
+			if(colorArr[j] == -1)
+				if(!check_bipartite(j,n))
+				{
+					printf("Suspicious bugs found!\n");
+					break;
+				}
+		}
+		if(j == n)
+			printf("No suspicious bugs found!\n");	
+/*		
+		for (int i = 0; i < n; ++i)
+		{
+			printf("%d ",colorArr[i] );
+		}
+		printf("\n");
+*/
+	}
+	
 	return 0;
 }
