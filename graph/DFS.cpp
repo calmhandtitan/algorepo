@@ -1,52 +1,45 @@
+/*
+	Depth First Search
+	Time complexity: O(V + E)
+	handle: calmhandtitan
+*/
 #include<bits/stdc++.h>
 using namespace std;
 #define VI vector<int>
+#define pb push_back
+#define SZ(v) (v).size()
 
-const int MAX = 1000;	// maximum no of nodes in a graph
+const int MAX = 1e5;	// maximum no of nodes in a graph
 
-vector< VI > graph;
-int visited[MAX];
+VI g[MAX];
+bool vis[MAX];
 int n, e;
 
-
-void DFS(int v)
+void dfs(int u)
 {
-	visited[v] = 1;
-
-	stack<int> S;
-	S.push(v);
-	
-	while(!S.empty())
+	vis[u] = 1;
+	for(int i = 0; i < SZ(g[u]); i++)
 	{
-		int cur = S.top();
-		S.pop();
-		printf("%d -> ",cur+1);
-	
-		for(VI::iterator it = graph[cur].begin(); it != graph[cur].end(); it++)
-		{
-			if(!visited[*it])
-			{
-				visited[*it] = 1;
-				S.push(*it);
-			}	
-		}
+		int v = g[u][i];
+		if(!vis[v])
+			dfs(v);
 	}
-	printf("\n");
 }
-
 
 int main()
 {
 	int x, y;
-	scanf("%d %d",&n, &e);
-	graph = vector< VI > (n);
+	scanf("%d %d",&n, &e);	//get number of nodes and number of edges
 	for(int i = 0; i < e; i++)
 	{
 		scanf("%d %d",&x, &y);
 		x--,y--;
-		graph[x].push_back(y);
-		graph[y].push_back(x);
+		g[x].pb(y);
+		g[y].pb(x);		//make undirected graph
 	}
-	DFS(0);
+	
+	for(int i = 0; i < n; i++)
+		if(!vis[i])		//graph may be disconnected
+			dfs(i);
 	return 0;
 }
