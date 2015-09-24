@@ -1,50 +1,57 @@
+/*
+	Breadth First Search
+	Time complexity: O(V + E)
+	handle: calmhandtitan
+*/
 #include<bits/stdc++.h>
 using namespace std;
 #define VI vector< int >
+#define pb push_back
+#define SZ(v) (v).size()
 
-const int MAX = 1000;	//maximum no of nodes graph can have
+const int MAX = 1e5;	//maximum no of nodes graph can have
 
 int n, e;
-int visited[MAX];
-vector< VI > graph;
+bool vis[MAX];
+VI g[MAX];
 
-void BFS(int src)
+void bfs(int s)
 {
-	visited[src] = 1;
-	queue< int > Q;
-	Q.push(src);
+	vis[s] = 1;
+	queue<int> q;
+	q.push(s);
 	
-	while(!Q.empty())
+	while(!q.empty())
 	{
-		int cur = Q.front();
-		Q.pop();
-		cout << cur+1 << " -> ";
+		int u = q.front();
+		q.pop();
 			
-		for(VI::iterator it = graph[cur].begin(); it != graph[cur].end(); it++)
+		for(int i = 0; i < SZ(g[u]); i++)
 		{
-			if(!visited[*it])
+			int v = g[u][i];
+			if(!vis[v])
 			{
-				visited[*it] = 1;
-				Q.push(*it);
+				vis[v] = 1;
+				q.push(v);
 			}
 		}
 	}
-	cout<<endl;
 }
 
 int main()
 {
 	int x, y;
-	cin >> n >> e;
-	graph = vector< VI > (n);
+	scanf("%d %d", &n, &e);			//get number of nodes and edges
 	for(int i = 0; i < e; i++)
 	{
-		cin >> x >> y;
+		scanf("%d %d", &x, &y);		//read edges
 		x--, y--;
-		graph[x].push_back(y);
-		graph[y].push_back(x);
+		g[x].pb(y);
+		g[y].pb(x);					//make undirected graph
 	}
-	BFS(0);
+	for(int i = 0; i < n; i++)		//graph may be disconnected
+		if(!vis[i])
+			bfs(i);
 
 	return 0;
 }
