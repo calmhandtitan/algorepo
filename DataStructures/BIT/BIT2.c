@@ -37,7 +37,6 @@ int main()
 
 	printf("Enter update query range[x..y]>>");
 	scanf("%d %d",&x, &y);
-	printf("sum of elements of range[%d..%d] is %d\n",x,y,query(y) - query(x-1));
 	printf("Enter value v to update by>>");
 	scanf("%d",&v);
 	update(x, v);
