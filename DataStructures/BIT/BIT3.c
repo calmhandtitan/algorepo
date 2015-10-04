@@ -1,47 +1,99 @@
-//Range Sum Query, Range update Binary Indexed tree
-#include<stdio.h>
+#include "stdio.h"
+#include "stdlib.h"
+#include "string.h"
+#define CLR(d) memset(d, 0, sizeof(d))
+#define lli long long int
 
-int BIT[10010], n, a[10010];
-
-int query(int k)
+int inline inp()
 {
-	int s = 0;
-	while(k > 0)
-	{
-		s += BIT[k];
-		k -= k & -k;
-	}
-	return s;
+    int n=0;
+    char c=getchar_unlocked();
+    while(c < '0' || c >'9') {c=getchar_unlocked();}
+    while(c>='0' && c<='9')
+    {
+        n=(n<<3)+(n<<1)+c-'0';
+        c=getchar_unlocked();
+    }
+    return n;
 }
 
-void update(int k, int v)
+int n;
+lli BIT1[100010], BIT2[100010];
+
+lli query1(int k)
 {
-	while(k <= n)
-	{
-		BIT[k] += v;
-		k += k & -k;
-	}
+    lli s = 0;
+    while( k > 0)
+    {
+        s += BIT1[k];
+        k -= k & -k;
+    }
+    return s;
+}
+
+void update1(int k, lli v)
+{
+    while(k <= n)
+    {
+        BIT1[k] += v;
+        k += k & -k;
+    }
+}
+
+lli query2(int k)
+{
+    lli s = 0;
+    while( k > 0)
+    {
+        s += BIT2[k];
+        k -= k & -k;
+    }
+    return s;
+}
+
+void update2(int k, lli v)
+{
+    while(k <= n)
+    {
+        BIT2[k] += v;
+        k += k & -k;
+    }
 }
 
 int main()
 {
-	int i, x, y, v;
-	scanf("%d",&n);
-	printf("Enter array elements>>"	);
-	for(i = 1 ; i <= n; i++)
-	{
-		scanf("%d",&a[i]);	
-		update(i, a[i]);
-	}
+    int t, c, p, q, z;
+    lli  v1, v2, v;
+    t = inp();
+    while(t--)
+    {
+        CLR(BIT1);
+        CLR(BIT2);
+        n = inp();
+        c = inp();
 
-	printf("Enter range[x..y]  for update>>\n");
-	scanf("%d %d",&x,&y);
-	printf("sum of elements of range[%d..%d] is %d\n", x, y, query(y) - query(x-1));
-	printf("Enter value to update with>>");
-	scanf("%d",&v);
-	update(x, v);
-	update(y+1, -v);
-	printf("updated sum of elements of range[%d..%d] is %d\n", x, y, query(y) - query(x-1));
-	
-	return 0;
+        while(c--)
+        {
+            z = inp();
+            if(z) // query
+            {
+                p = inp();
+                q = inp();
+                v1 = query1(q)*q - query2(q);
+                v2 = query1(p-1)*(p-1) - query2(p-1);
+                printf("%lld\n",v1 - v2 );
+            }
+            else    
+            {
+                p = inp();
+                q = inp();
+                scanf("%lld",&v);
+                update1(p, v);
+                update1(q+1, -v);
+                update2(p, v*(p-1));
+                update2(q+1, -v*q);
+            }
+        }
+    }
+    return 0;
 }
